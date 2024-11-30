@@ -111,7 +111,7 @@ plt.show()
 
 ---
 
-## Visualisasi Hasil Training Model
+## Visualization of Model Training Results
 
 <img width="649" alt="Screenshot 2024-11-30 205119" src="https://github.com/user-attachments/assets/d7dab1d8-349b-4e96-8b90-b5890dd6c763">
 )

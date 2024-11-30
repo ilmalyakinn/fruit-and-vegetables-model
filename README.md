@@ -131,5 +131,5 @@ This project is licensed under the [MIT License](LICENSE). Feel free to use, mod
 For any inquiries or support, please contact:
 - **Name**: Ilmal Yakin Nurahman
 - **Email**: 224260028.mhs@stmikjabar.ac.id
-- **GitHub**: [Your GitHub Profile](https://github.com/ilmalyakinn)
+- **GitHub**: [ilmalyakinn](https://github.com/ilmalyakinn)
 

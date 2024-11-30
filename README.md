@@ -124,6 +124,11 @@ If you would like to contribute to this project, please fork the repository and 
 
 ## License
 This project is licensed under the [MIT License](LICENSE). Feel free to use, modify, and distribute this project as per the terms of the license.
+## Contributors
+we would like to thank the following people for their contributions to this project:
+
+- [Aan Andiyana Sandi](https://github.com/aan-andiyanaS)
+- [Ridwan Fadillah](https://github.com/RidwanFadillah)
 
 ---
 

@@ -31,8 +31,8 @@ The purpose of this project is to develop a multi-class classification model usi
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/your-username/your-repo-name.git
-   cd your-repo-name
+   git clone https://github.com/ilmalyakinn/fruit-and-vegetables-model.git
+   cd fruit-and-vegetables-model
    ```
 
 2. **Install Dependencies**:

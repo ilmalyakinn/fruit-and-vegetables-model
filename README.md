@@ -130,6 +130,6 @@ This project is licensed under the [MIT License](LICENSE). Feel free to use, mod
 ## Contact
 For any inquiries or support, please contact:
 - **Name**: Ilmal Yakin Nurahman
-- **Email**: 224260028.mhs@stmikjabar.ac.id
+- **Email**: ilmalyakinnurahman@gmail.com
 - **GitHub**: [ilmalyakinn](https://github.com/ilmalyakinn)
 

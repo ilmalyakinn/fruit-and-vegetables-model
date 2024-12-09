@@ -13,51 +13,18 @@ The purpose of this project is to develop a multi-class classification model usi
 - **Optimization**: Includes dropout layers to prevent overfitting and early stopping to optimize training.
 - **Visualization**: Provides training and validation accuracy/loss graphs to analyze model performance.
 
----
+### Fruit and Vegetable Label List
 
-## Project Structure
-
-```
-├── dataset/                    # Folder containing training and validation datasets
-├── model/                      # Folder for saving trained model files
-├── fruitandvegetables.ipynb    # Jupyter Notebook for model development
-├── requirements.txt            # Python dependencies
-├── README.md                   # Project documentation
-```
-
----
-
-## Installation and Setup
-
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/ilmalyakinn/fruit-and-vegetables-model.git
-   cd fruit-and-vegetables-model
-   ```
-
-2. **Install Dependencies**:
-   Install the required Python packages using the `requirements.txt` file:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Download Dataset**:
-   Place your training and validation data in the `dataset/` folder. Ensure the data is properly labeled.
-
----
-
-## Model Training
-
-To train the model, execute the following steps:
-
-1. **Load and Prepare Data**:
-   Ensure your training and validation data are preprocessed and loaded correctly.
-
-2. **Run the Training Script**:
-   Open `fruitandvegetables.ipynb` or run the Python script to train the model.
-
-3. **Monitor Performance**:
-   Training and validation accuracy/loss graphs will be displayed to track the model's performance over epochs.
+| apple       | avocado       | banana       | beetroot      | cabbage       |
+|-------------|---------------|--------------|---------------|---------------|
+| carrot      | cauliflower   | chilli pepper| corn          | cucumber      |
+| durian      | eggplant      | garlic       | ginger        | grapes        |
+| guava       | kiwi          | langsat      | lemon         | lettuce       |
+| mango       | mangosteen    | melon        | onion         | orange        |
+| papaya      | paprika       | pear         | peas          | pineapple     |
+| potato      | raddish       | salak        | soy beans     | spinach       |
+| strawberries| sweetpotato   | tomato       | turnip        | water-guava   |
+| watermelon  |               |              |               |               |
 
 ---
 
@@ -77,45 +44,87 @@ predictions = model.predict(test_images)
 
 ---
 
-## Visualization
+## Testing the Model
 
-To visualize training and validation accuracy/loss, use the following:
+Test the model using validation data:
 
 ```python
-import matplotlib.pyplot as plt
+from tensorflow.keras.models import load_model
+from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
+from PIL import Image
+import numpy as np
+import ipywidgets as widgets
+from IPython.display import display, clear_output
 
-# Example plots
-plt.figure(figsize=(14, 6))
+# Load model
+model = load_model('/content/model.h5')
 
-# Accuracy plot
-plt.subplot(1, 2, 1)
-plt.plot(history.history['accuracy'], 'r', label='Training Accuracy')
-plt.plot(history.history['val_accuracy'], 'b', label='Validation Accuracy')
-plt.title('Training and Validation Accuracy')
-plt.xlabel('Epochs')
-plt.ylabel('Accuracy')
-plt.legend()
+# Predefined class labels
+labels = ['apple', 'avocado', 'banana', 'beetroot', 'cabbage', 'carrot', 'cauliflower', 'chilli pepper', 'corn', 'cucumber', 'durian', 'eggplant', 'garlic', 'ginger', 'grapes', 'guava', 'kiwi', 'langsat', 'lemon', 'lettuce', 'mango', 'mangosteen', 'melon', 'onion', 'orange', 'papaya', 'paprika', 'pear', 'peas', 'pineapple', 'potato', 'raddish', 'salak', 'soy beans', 'spinach', 'strawberies', 'sweetpotato', 'tomato', 'turnip', 'water-guava', 'watermelon']
 
-# Loss plot
-plt.subplot(1, 2, 2)
-plt.plot(history.history['loss'], 'r', label='Training Loss')
-plt.plot(history.history['val_loss'], 'b', label='Validation Loss')
-plt.title('Training and Validation Loss')
-plt.xlabel('Epochs')
-plt.ylabel('Loss')
-plt.legend()
+# Function to preprocess image
+def preprocess_image(image_path):
+    img = Image.open(image_path).convert("RGB")  # Convert RGBA to RGB
+    img_width, img_height = img.size
+    
+    # If image is larger than 224x224, resize to 224x224
+    if img_width > 224 or img_height > 224:
+        img = img.resize((224, 224))
+    
+    # Alternatively, for larger images, you can crop them to 224x224
+    # img = img.crop((0, 0, 224, 224))  # Crop top-left 224x224 region
+    
+    img_array = np.array(img)
+    img_array = preprocess_input(img_array)  # Apply MobileNetV2 preprocessing
+    img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
+    return img_array
 
-plt.tight_layout()
-plt.show()
+# Function to make predictions
+def predict_image(image_path):
+    preprocessed_image = preprocess_image(image_path)
+    predictions = model.predict(preprocessed_image)
+    predicted_class_index = np.argmax(predictions)
+    predicted_class = labels[predicted_class_index]
+    return predicted_class, predictions
+
+# Create an upload button
+upload_button = widgets.FileUpload(accept='image/*', multiple=False)
+
+# Create an output widget to display the results
+output = widgets.Output()
+
+def on_upload_change(change):
+    with output:
+        clear_output()
+        if upload_button.value:
+            uploaded_file = list(upload_button.value.values())[0]
+            image_path = '/content/uploaded_image.jpg'  # Temporary file path
+            with open(image_path, 'wb') as f:
+                f.write(uploaded_file['content'])
+
+            predicted_class, predictions = predict_image(image_path)
+
+            print(f"Predicted Class: {predicted_class}")
+            print("Probabilities:")
+            for i, prob in enumerate(predictions[0]):
+                print(f"- {labels[i]}: {prob:.4f}")
+
+# Register the callback function
+upload_button.observe(on_upload_change, names='value')
+
+# Display the upload button and the output widget
+display(upload_button)
+display(output)
+
+
 ```
 
 ---
 
-## Visualization of Model Training Results
+## Model
+We use CNN for Fruit and Vegetable Classfication These are the model result:
 
 <img width="649" alt="Screenshot 2024-11-30 205119" src="https://github.com/user-attachments/assets/d7dab1d8-349b-4e96-8b90-b5890dd6c763">
-)
-
 
 ## Contributing
 If you would like to contribute to this project, please fork the repository and submit a pull request. Feel free to open issues for suggestions or bug reports.
